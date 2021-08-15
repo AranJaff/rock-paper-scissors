@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+</head>
+<body>
+<script>
+    function computerPlay() {
+        let randomNum = Math.floor(Math.random() * 3 + 1);
+        switch(randomNum) {
+            case 1:
+                return "Paper";
+                break;
+            case 2:
+                return "rock";
+                break;
+            case 3:
+                return "scissors";
+                break;
+        }
+    }
+
+    function playRound(playerSelection, computerSelection) {
+        playerSelection = playerSelection.toUpperCase();
+        computerSelection = computerSelection.toUpperCase();
+
+        if (playerSelection == computerSelection) {
+            return 0;  
+        }
+        else if (computerSelection == "PAPER" && playerSelection == "ROCK") {
+            return 1;  
+        }
+        else if (computerSelection == "PAPER" && playerSelection == "SCISSORS") {
+            return 2;   
+        }
+        else if (computerSelection == "ROCK" && playerSelection == "SCISSORS") {
+            return 3;   
+        }
+        else if (computerSelection == "ROCK" && playerSelection == "PAPER") {
+            return 4;   
+        }
+        else if (computerSelection == "SCISSORS" && playerSelection == "ROCK") {
+            return 5;   
+        }
+        else if (computerSelection == "SCISSORS" && playerSelection == "PAPER") {
+            return 6;       
+        }
+    }
+    
+    function game() {
+        let player = 0;
+        let computer = 0;
+
+        for (let i = 0 ; i < 5; i++ ) {
+            let playerSelection = prompt("What's your choice?");
+            let roundResult = playRound(playerSelection, computerPlay());
+
+           switch (roundResult) {
+                case 0:
+                console.log("tie");
+                break;
+                case 1:
+                console.log(`You lose! paper beats rock!\ncomputer= ${++computer} player=${player}`);
+                break;
+                case 2:
+                console.log(`You win! scissors beats paper!\ncomputer= ${computer} player=${++player}`);
+                break;
+                case 3:
+                console.log(`You lose! rock beats scissors!\ncomputer= ${++computer} player=${player}`);
+                break;
+                case 4:
+                console.log(`You win! paper beats rock!\ncomputer= ${computer} player=${++player}`);
+                break;
+                case 5:
+                console.log(`You win! rock beats scissors!\ncomputer= ${computer} player=${++player}`);
+                break;
+                case 6:
+                console.log(`You lose! scissors beats paper!\ncomputer= ${++computer} player=${player}`);
+                break;
+           } 
+        }
+
+        if (computer > player) {
+            console.log("Finally computer WINS"); 
+        }
+        else if (player > computer) {
+            console.log("FINNALLY PLAYER WINS");
+        }
+        else {
+            console.log("FINALLY TIE");
+        }
+    }
+
+</script>
+</body>
+</html>
