@@ -1,28 +1,224 @@
 <!DOCTYPE html>
 <html>
 <head>
+<style>
+@font-face {
+    font-family: 'myFont';
+    src: url("PressStart2P-Regular.ttf");
+}
 
+body {
+    text-align: center;
+    background-color: rgb(241, 241, 243);
+    font-family: 'myFont';
+    color: rgb(248, 27, 27);
+}
+
+h1 {
+    margin-top: 30px;
+    margin-bottom: 10px;
+    padding: 20px;
+    font-size: 50px ;
+}
+
+h2 {
+    margin: 20px auto;
+    padding: 10px;
+    font-size: 40px;
+}
+ h3 {
+     padding: 5px;
+     margin: 10px auto;
+     font-size: 30px;
+ }
+
+.text {
+    border: rgb(248, 27, 27);
+    border-style: solid;
+    display: block;
+    height: 50px;
+    padding: 10px;
+    margin-left: 10px;
+    background-color:rgb(27, 177, 157);
+}
+
+#playerScore {
+    display: block;
+    height: 40px;
+    width: 30px;
+    margin: 10px auto;
+    font-size: 20px;
+    color: #fff;
+}
+
+#computerScore {
+    display: block;
+    height: 40px;
+    width: 30px;
+    margin: 10px auto;
+    font-size: 20px;
+    color: #fff;
+}
+
+#score-container {
+    display: flex;
+    justify-content: center;
+    
+}
+
+#score {
+    margin-left: 10px;
+    width: 230px
+}
+
+#btn-container {
+    display: flex;
+    justify-content: center;
+    margin: 10px auto;
+    margin-bottom: 20px;
+}
+
+#btn-container > button {
+    margin-left: 10px;
+    width: 170px;
+    height: 90px;
+    margin-top: 40px;
+    border-radius: 0;
+    border: rgb(248, 27, 27);
+    border-style: solid;
+    font-family: 'myFont';
+    font-size: 20px;
+    color: rgb(250, 248, 248);
+    background-color:rgb(93, 27, 179);
+}
+
+#playAgain {
+    width: 150px;
+    height: 50px;
+    font-family: 'myFont';
+    font-size: 13px;
+    background-color:rgb(233, 116, 6);
+    color: rgb(250, 249, 249);
+    border: solid;
+    border-color:rgb(248, 27, 27);
+}
+
+#result-container {
+    margin: 20px auto;
+}
+
+.text-result {
+    width: 360px;
+    height: 120px;
+    border:black;
+    border: solid;
+    margin: 5px auto ;
+    background-color:rgb(27, 177, 157);
+}
+
+#result-box {
+    margin-top: 30px;
+    padding: 10px;
+    color: #fff;
+}
+
+
+</style>
 </head>
 <body>
+<h1>Rock Paper Scissors</h1>
+<h2>First to five wins</h2>
+<h3>Choose your weapon</h3>
+
+<div id='container'>
+    <div id='btn-container'>
+        <button id='ROCK'>Rock</button>
+        <button id='PAPER'>Paper</button>
+        <button id='SCISSORS'>Scissors</button>
+    </div>
+
+    <div id='score-container'>
+        <div id='score'>
+            <div style="font-size: 13px; margin-bottom: 5px;">Player score</div>
+            <div class="text">
+                <div id='playerScore'>0</div>
+            </div>
+        </div>
+        <div id='score'>
+            <div style="font-size: 13px; margin-bottom: 5px;">Computer score</div>
+            <div class="text">
+                <div id='computerScore'>0</div>
+            </div>
+        </div>
+    </div>
+
+    <div id='result-container'>
+        <div>result</div>
+        <div class="text-result">
+            <div id='result-box'>1</div>
+        </div>
+    </div>
+
+    <button id='playAgain'>Play Again</button>
+</div>
+
+
+
+
 <script>
+
+    //variable declaration
+    let player = 0;
+    let computer = 0;
+    let playerSelection;
+
+    //player selection event listener
+    const rockButton = document.querySelector('#ROCK');
+    const paperButton = document.querySelector('#PAPER');
+    const scissorsButton = document.querySelector('#SCISSORS');
+
+    const resultBox = document.querySelector("#result-box");
+    const playerScore = document.querySelector("#playerScore");
+    const computerScore = document.querySelector("#computerScore");
+    const playAgain = document.querySelector("#playAgain");
+
+    resultBox.textContent = "Fight for our survival";
+
+    rockButton.addEventListener('click', () => {
+        playerSelection = "ROCK";
+        game(); 
+    });
+    
+    paperButton.addEventListener('click', () => {
+        playerSelection = "PAPER";
+        game();
+    });
+
+    scissorsButton.addEventListener('click', () => {
+        playerSelection = "SCISSORS";
+        game();
+    });
+
+    console.log(playerSelection);
+
+    //randomly choose one choice from rock paper scissors for computer
     function computerPlay() {
         let randomNum = Math.floor(Math.random() * 3 + 1);
         switch(randomNum) {
             case 1:
-                return "Paper";
+                return "PAPER";
                 break;
             case 2:
-                return "rock";
+                return "ROCK";
                 break;
             case 3:
-                return "scissors";
+                return "SCISSORS";
                 break;
         }
     }
 
+    // play one round of game and return a number used in the next function 
     function playRound(playerSelection, computerSelection) {
-        playerSelection = playerSelection.toUpperCase();
-        computerSelection = computerSelection.toUpperCase();
 
         if (playerSelection == computerSelection) {
             return 0;  
@@ -46,51 +242,68 @@
             return 6;       
         }
     }
-    
-    function game() {
-        let player = 0;
-        let computer = 0;
 
-        for (let i = 0 ; i < 5; i++ ) {
-            let playerSelection = prompt("What's your choice?");
+    function game() {
+
+        if (player > 4 || computer > 4) {
+        } 
+        else {
             let roundResult = playRound(playerSelection, computerPlay());
 
-           switch (roundResult) {
-                case 0:
-                console.log("tie");
+            switch (roundResult) {
+            case 0:
+                resultBox.textContent = "A tie !";
                 break;
-                case 1:
-                console.log(`You lose! paper beats rock!\ncomputer= ${++computer} player=${player}`);
+            case 1:
+                resultBox.textContent = "You lose! paper beats rock!";
+                playerScore.textContent = player;
+                computerScore.textContent = ++computer;
                 break;
-                case 2:
-                console.log(`You win! scissors beats paper!\ncomputer= ${computer} player=${++player}`);
+            case 2:
+                resultBox.textContent = "You win! scissors beats paper!";
+                playerScore.textContent = ++player;
+                computerScore.textContent = computer;
                 break;
-                case 3:
-                console.log(`You lose! rock beats scissors!\ncomputer= ${++computer} player=${player}`);
+            case 3:
+                resultBox.textContent = "You lose! rock beats scissors!";
+                playerScore.textContent = player;
+                computerScore.textContent = ++computer;
                 break;
-                case 4:
-                console.log(`You win! paper beats rock!\ncomputer= ${computer} player=${++player}`);
+            case 4:
+                resultBox.textContent = "You win! paper beats rock!";
+                playerScore.textContent = ++player;
+                computerScore.textContent = computer;
                 break;
-                case 5:
-                console.log(`You win! rock beats scissors!\ncomputer= ${computer} player=${++player}`);
+            case 5:
+                resultBox.textContent = "You win! rock beats scissors!";
+                playerScore.textContent = ++player;
+                computerScore.textContent = computer;
                 break;
-                case 6:
-                console.log(`You lose! scissors beats paper!\ncomputer= ${++computer} player=${player}`);
+            case 6:
+                resultBox.textContent = "You lose! scissors beats paper!";
+                playerScore.textContent = player;
+                computerScore.textContent = ++computer;
                 break;
-           } 
+            } 
         }
-
-        if (computer > player) {
-            console.log("Finally computer WINS"); 
+        if (computer == 5) {
+            resultBox.textContent = "Finally computer WINS";
+            return;
         }
-        else if (player > computer) {
-            console.log("FINNALLY PLAYER WINS");
-        }
-        else {
-            console.log("FINALLY TIE");
+        else if (player == 5) {
+            resultBox.textContent = "FINNALLY PLAYER WINS";
+            return;
         }
     }
 
+    playAgain.addEventListener("click", () => {
+        player = 0;
+        computer = 0;
+        playerScore.textContent = player;
+        computerScore.textContent = computer;
+        resultBox.textContent = "Fight again for the Human race!";
+    })
+    
 </script>
 </body>
 </html>
